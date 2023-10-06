@@ -245,7 +245,7 @@ const fetchMovie = async () => {
   } else {
     const card = `<div class="d-flex flex-column mt-5">
                     <h2 class="text-white">Search Movie</h2>
-                    <img src="/assets/images/search.gif" />
+                    <img src="./assets/images/search.gif" />
                   </div>`;
 
     document.querySelector(".page-content").innerHTML = card;
