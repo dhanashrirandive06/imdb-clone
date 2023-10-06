@@ -70,7 +70,7 @@ const favouritesPage = () => {
 // Create favourites Page Movie Card
 const favouritesPageCard = (movie) => {
   const card = `<div class="favCard mx-3 bg-light border-1 mt-3 ">
-                  <a href="/movie.html?title=${movie.Title}">
+                  <a href="/imdb-clone/movie.html?title=${movie.Title}">
                     <img
                     src=${movie.Poster}
                     class="card-img-top movie-card-image"
@@ -81,7 +81,7 @@ const favouritesPageCard = (movie) => {
                     <div>
                       <i class="fa-solid fa-star text-warning"></i>${movie.Ratings[0].Value}
                     </div>
-                    <a href="/movie.html?title=${movie.Title}"> <h6 class="card-title my-2">${movie.Title}</h6></a>
+                    <a href="/imdb-clone/movie.html?title=${movie.Title}"> <h6 class="card-title my-2">${movie.Title}</h6></a>
                     <button onclick="removeFavourites('${movie.Title}')" class="add-favourites text-center bg-danger border-0 text-white p-1 rounded">
                     <i class="fa-solid fa-trash"></i> Remove Favourites
                     </button>
@@ -215,7 +215,7 @@ const movieCard = (movie) => {
   } else {
     console.log(movie);
     const card = `
-    <a class="movie-card bg-light border-1" href="/movie.html?title=${movie.Title}">
+    <a class="movie-card bg-light border-1" href="/imdb-clone/movie.html?title=${movie.Title}">
   
       <img
         src="${movie.Poster}"
