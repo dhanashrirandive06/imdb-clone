@@ -5,7 +5,6 @@ const refreshPageContent = () => {
 
 // To add Movie as Favourites
 const addToFavourites = (title) => {
-  console.log(title);
   if (localStorage.getItem("movieList")) {
     let movieList = JSON.parse(localStorage.getItem("movieList"));
     if (!checkInFavourite(title)) {
@@ -18,9 +17,30 @@ const addToFavourites = (title) => {
     localStorage.setItem("movieList", movieList);
   }
 };
-// To add Movie as Favourites
+// To Remove Movie as Favourites
+const removeFavourites = (title) => {
+  let movieList = JSON.parse(localStorage.getItem("movieList"));
+
+  let index = movieList.indexOf(title);
+  movieList.splice(index, 1);
+  localStorage.setItem("movieList", JSON.stringify(movieList));
+  if (Object.keys(movieList).length === 0) {
+    localStorage.removeItem("movieList");
+  }
+  refreshPageContent();
+};
+
+// To render page content based on URL
+const stopInterval = setInterval(() => {
+  if (window.location.pathname.includes(["movie.html"])) {
+    moviePage();
+  } else if (window.location.pathname.includes(["favourites.html"])) {
+    favouritesPage();
+  }
+}, 1000);
+
+// To add Movie as Favourites on Movie Page
 const addFavourites = (title) => {
-  console.log(title);
   if (localStorage.getItem("movieList")) {
     let movieList = JSON.parse(localStorage.getItem("movieList"));
     if (!checkInFavourite(title)) {
@@ -38,23 +58,26 @@ const addFavourites = (title) => {
   } else {
     let movieList = JSON.stringify([title]);
     localStorage.setItem("movieList", movieList);
+    document.querySelector(".overlay").innerHTML = `
+    <h4>${title}</h4>
+    <button
+    onclick="removefromFavourites('${title}')"
+    class="add-favourites text-center bg-danger border-0 text-white py-1 rounded"
+  >
+  <i class="fa-solid fa-trash"></i> Remove Favourites
+  </button>`;
   }
 };
-
-// To Remove Movie as Favourites
-const removeFavourites = (title) => {
-  let movieList = JSON.parse(localStorage.getItem("movieList"));
-  let index = movieList.indexOf(title);
-  movieList.splice(index, 1);
-  localStorage.setItem("movieList", JSON.stringify(movieList));
-  refreshPageContent();
-};
-// To Remove Movie as Favourites
+// To Remove Movie as Favourites on movie page
 const removefromFavourites = (title) => {
   let movieList = JSON.parse(localStorage.getItem("movieList"));
   let index = movieList.indexOf(title);
   movieList.splice(index, 1);
+
   localStorage.setItem("movieList", JSON.stringify(movieList));
+  if (Object.keys(movieList).length === 0) {
+    localStorage.removeItem("movieList");
+  }
   document.querySelector(".overlay").innerHTML = `
       <h4>${title}</h4>
       <div
@@ -65,15 +88,6 @@ const removefromFavourites = (title) => {
       </div>`;
 };
 
-// To render page content based on URL
-const stopInterval = setInterval(() => {
-  if (window.location.pathname.includes(["movie.html"])) {
-    moviePage();
-  } else if (window.location.pathname.includes(["favourites.html"])) {
-    favouritesPage();
-  }
-}, 1000);
-
 // Display Content on favourites Page
 const favouritesPage = () => {
   clearInterval(stopInterval);
@@ -83,7 +97,6 @@ const favouritesPage = () => {
   if (movieList !== null) {
     document.querySelector("#page-content").innerHTML = "";
     movieList.forEach(async (element) => {
-      console.log(element);
       const response = await fetch(
         `https://www.omdbapi.com/?t=${element}&apikey=58db2aa0`
       );
@@ -234,7 +247,6 @@ const movieCard = (movie) => {
     } else {
       check = checkInFavourite(movie.Title);
     }
-    console.log(movie);
     const card = `
     <div class="movie-card bg-light border-1">
     <a  href="/imdb-clone/movie.html?title=${movie.Title}">
@@ -272,7 +284,6 @@ const movieCard = (movie) => {
 
 //Function to fetch Movie (search)
 const fetchMovie = async () => {
-  console.log("Fetchmovie");
   let search = document.querySelector("#search").value;
   if (search !== "") {
     const response = await fetch(
