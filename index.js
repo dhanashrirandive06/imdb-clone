@@ -18,6 +18,28 @@ const addToFavourites = (title) => {
     localStorage.setItem("movieList", movieList);
   }
 };
+// To add Movie as Favourites
+const addFavourites = (title) => {
+  console.log(title);
+  if (localStorage.getItem("movieList")) {
+    let movieList = JSON.parse(localStorage.getItem("movieList"));
+    if (!checkInFavourite(title)) {
+      movieList.push(title);
+      localStorage.setItem("movieList", JSON.stringify(movieList));
+      document.querySelector(".overlay").innerHTML = `
+      <h4>${title}</h4>
+      <button
+      onclick="removefromFavourites('${title}')"
+      class="add-favourites text-center bg-danger border-0 text-white py-1 rounded"
+    >
+    <i class="fa-solid fa-trash"></i> Remove Favourites
+    </button>`;
+    }
+  } else {
+    let movieList = JSON.stringify([title]);
+    localStorage.setItem("movieList", movieList);
+  }
+};
 
 // To Remove Movie as Favourites
 const removeFavourites = (title) => {
@@ -26,6 +48,21 @@ const removeFavourites = (title) => {
   movieList.splice(index, 1);
   localStorage.setItem("movieList", JSON.stringify(movieList));
   refreshPageContent();
+};
+// To Remove Movie as Favourites
+const removefromFavourites = (title) => {
+  let movieList = JSON.parse(localStorage.getItem("movieList"));
+  let index = movieList.indexOf(title);
+  movieList.splice(index, 1);
+  localStorage.setItem("movieList", JSON.stringify(movieList));
+  document.querySelector(".overlay").innerHTML = `
+      <h4>${title}</h4>
+      <div
+        onclick="addFavourites('${title}')"
+        class="mt-1 add-favourites  text-center border-0 text-white p-1 rounded"
+      >
+        <i class="fa-solid fa-plus"></i> Favourites
+      </div>`;
 };
 
 // To render page content based on URL
@@ -70,18 +107,20 @@ const favouritesPage = () => {
 // Create favourites Page Movie Card
 const favouritesPageCard = (movie) => {
   const card = `<div class="favCard mx-3 bg-light border-1 mt-3 ">
-                  <a href="/imdb-clone/movie.html?title=${movie.Title}">
+                  <a class="fav-card-image"
+                   href="/imdb-clone/movie.html?title=${movie.Title}">
                     <img
+                    
                     src=${movie.Poster}
-                    class="card-img-top movie-card-image"
+                    class="card-img-top fav-img"
                     alt=${movie.Title}
                     />
                   </a>
-                  <div class="card-body p-3">
+                  <div class=" card-body fav-card-body p-1">
                     <div>
                       <i class="fa-solid fa-star text-warning"></i>${movie.Ratings[0].Value}
                     </div>
-                    <a href="/imdb-clone/movie.html?title=${movie.Title}"> <h6 class="card-title my-2">${movie.Title}</h6></a>
+                    <a href="/imdb-clone/movie.html?title=${movie.Title}"> <h6 class="card-title my-1">${movie.Title}</h6></a>
                     <button onclick="removeFavourites('${movie.Title}')" class="add-favourites text-center bg-danger border-0 text-white p-1 rounded">
                     <i class="fa-solid fa-trash"></i> Remove Favourites
                     </button>
@@ -95,71 +134,47 @@ const favouritesPageCard = (movie) => {
 
 //Create Movie Page Card
 const moviePageCard = (movie) => {
-  let movieList = JSON.parse(localStorage.getItem("movieList"));
-  let check = "";
-  if (movieList === null) {
-    check = false;
-  } else {
-    check = checkInFavourite(movie.Title);
-  }
   const card = `
-      <div class="d-flex w-75 movieRow mt-4" >
-        <div class="col-md-4">
+      <div class="d-flex movieRow my-4" >
+        <div class="movieRow_img">
           <img
             src=${movie.Poster}
             class="img-fluid rounded h-75 "
             alt="..."
           />
         </div>
-        <div class="col-md-8">
+        <div class="movieRow_data ">
           <div class=" d-flex flex-column justify-content-evenly " >
             <div class="d-flex justify-content-between">
               <h3 class="card-title">${movie.Title}</h3>
 
               <div class="mt-2 mx-4 py-1 px-2 rating rounded">
-                <i class="fa-solid fa-star text-warning"></i> ${movie.Ratings[0].Value
-    }
+                <i class="fa-solid fa-star text-warning"></i> ${movie.Ratings[0].Value}
               </div>
               <div class="mt-2 mx-4 py-1 px-2 rating rounded">
-              <i class="fa-solid fa-star text-warning"></i>IMDB Rating ${movie.imdbRating
-    }
+              <i class="fa-solid fa-star text-warning"></i>IMDB Rating ${movie.imdbRating}
               </div>
              
             </div>
             <p class="w-100 my-3 text-start">
-            ${movie.Plot}
+            <span>Plot :</span> ${movie.Plot}
             </p>
 
             <div class="d-flex justify-content-between">
-            <p>Genre : ${movie.Genre}</p>
-            <p>Released : ${movie.Released}</p>
+            <p><span>Genre :</span> ${movie.Genre}</p>
+            <p><span>Released :</span> ${movie.Released}</p>
           </div>
 
             <div class="d-flex justify-content-between">
-              <p>Director : ${movie.Director}</p>
-              <p>Language : ${movie.Language}</p>
-              <p>Country : ${movie.Country}</p>
+              <p><span>Director :</span> ${movie.Director}</p>
+              <p><span>Language :</span> ${movie.Language}</p>
+              <p><span>Country :</span> ${movie.Country}</p>
             </div>
 
             <div>
-              <p>Writers : ${movie.Writer}</p>
-              <p>Stars : ${movie.Actors}</>
+              <p><span>Writers :</span> ${movie.Writer}</p>
+              <p><span>Stars :</span> ${movie.Actors}</>
             </div>
-
-            ${check
-      ? ` <button
-                  onclick="removeFavourites('${movie.Title}')"
-                  class="add-favourites w-50 text-center bg-danger border-0 text-white py-1 rounded"
-                >
-                <i class="fa-solid fa-trash"></i> Remove Favourites
-                </button>`
-      : `<div
-                  onclick="addToFavourites('${movie.Title}')"
-                  class="mt-1 add-favourites w-25 text-center border-0 text-white p-1 rounded"
-                >
-                  <i class="fa-solid fa-plus"></i> Favourites
-                </div>`
-    }
           </div>
         </div>
       </div>
@@ -197,7 +212,6 @@ const checkInFavourite = (title) => {
 const movieCard = (movie) => {
   document.querySelector(".page-content").innerHTML = "";
   if (movie.Response === "False") {
-    console.log(movie);
     let div = document.createElement("div");
     div.classList =
       "d-flex flex-column mt-5 justify-content-center align-items-center";
@@ -213,19 +227,43 @@ const movieCard = (movie) => {
     div.appendChild(h2);
     document.querySelector(".page-content").appendChild(div);
   } else {
+    let movieList = JSON.parse(localStorage.getItem("movieList"));
+    let check = "";
+    if (movieList === null) {
+      check = false;
+    } else {
+      check = checkInFavourite(movie.Title);
+    }
     console.log(movie);
     const card = `
-    <a class="movie-card bg-light border-1" href="/imdb-clone/movie.html?title=${movie.Title}">
+    <div class="movie-card bg-light border-1">
+    <a  href="/imdb-clone/movie.html?title=${movie.Title}">
   
       <img
         src="${movie.Poster}"
         class="card-img-top movie-card-image h-100"
         alt="..."
       />
-    <div class="overlay">
+    </a>
+    <div class="overlay d-flex flex-column">
       <h4>${movie.Title}</h4>
+      ${check
+        ? ` <button
+                    onclick="removefromFavourites('${movie.Title}')"
+                    class="add-favourites text-center bg-danger border-0 text-white py-1 rounded"
+                  >
+                  <i class="fa-solid fa-trash"></i> Remove Favourites
+                  </button>`
+        : `<div
+                    onclick="addFavourites('${movie.Title}')"
+                    class="mt-1 add-favourites  text-center border-0 text-white p-1 rounded"
+                  >
+                    <i class="fa-solid fa-plus"></i> Favourites
+                  </div>`
+      }
     </div>
-  </a>
+ 
+  </div>
   `;
 
     document.querySelector(".page-content").innerHTML = card;

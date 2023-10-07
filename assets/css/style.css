@@ -3,6 +3,12 @@ body {
   margin: 0;
   padding: 0;
   background-color: black !important;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+/* Scrollbar hidden Functionality */
+.scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* Navbar CSS */
@@ -17,6 +23,7 @@ body {
   border-right: none;
   border-bottom: 1px solid white;
   color: white;
+  width: 50%;
 }
 
 .searchInput:focus {
@@ -37,28 +44,27 @@ body {
 
 /* Movie Card Css */
 .movie-card {
-  position: absolute;
   width: 25%;
-  height: 30rem;
+  height: 25rem;
   border: 1px solid wheat;
 }
 
 .movie-card-image {
-  height: 20rem;
+  height: 60%;
   width: 20rem;
   background-position: center;
 }
 
 .overlay {
-  position: absolute;
-  height: 4rem;
+  height: 20%;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.786);
+  background-color: rgba(223, 222, 222, 0.786);
   width: 100%;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid wheat;
 }
 
 .add-favourites {
@@ -77,19 +83,154 @@ body {
 }
 
 .movieRow {
-  color: rgba(245, 245, 245, 0.843);
+  color: rgba(245, 245, 245, 0.66);
+  width: 75%;
+}
+
+.movieRow_img {
+  width: 30%;
+}
+
+.movieRow_data {
+  width: 70%;
+}
+
+.movieRow span {
+  color: rgb(255, 255, 255) !important;
 }
 
 /* Favourites Card CSS */
 
 .favCard {
   width: 95%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   color: black !important;
 }
 
+.fav-card-image {
+  height: 80%;
+  width: 100%;
+}
+
+.fav-img {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+}
+
+.fav-card-body {
+  display: flex;
+  flex-direction: column;
+}
+
 .favCardAnchor {
   text-decoration: none;
   color: black;
+}
+
+@media (max-width: 1400px) {
+  .movie-card {
+    width: 25%;
+    height: 25rem;
+    border: 1px solid wheat;
+  }
+}
+
+@media (max-width: 1200px) {
+  .movie-card {
+    width: 35%;
+    height: 25rem;
+    border: 1px solid wheat;
+  }
+}
+
+@media (max-width: 992px) {
+  .movie-card {
+    width: 40%;
+    height: 25rem;
+    border: 1px solid wheat;
+  }
+
+  .movieRow {
+    color: rgba(245, 245, 245, 0.66);
+    width: 85%;
+  }
+
+  .movieRow_img {
+    width: 30%;
+  }
+
+  .movieRow_data {
+    width: 70%;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchImage {
+    width: 50%;
+    height: 50%;
+  }
+
+  .movie-card {
+    width: 60%;
+    height: 25rem;
+    border: 1px solid wheat;
+  }
+
+  .movieRow {
+    color: rgba(245, 245, 245, 0.66);
+    width: 95%;
+    justify-content: space-around;
+  }
+
+  .movieRow_img {
+    width: 25%;
+  }
+
+  .movieRow_data {
+    width: 60%;
+  }
+}
+
+@media (max-width: 576px) {
+  .movie-card {
+    width: 80%;
+    height: 25rem;
+    border: 1px solid wheat;
+  }
+
+  .navbar-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start !important;
+    gap: 1rem;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+
+  .searchImage {
+    width: 60%;
+    height: 60%;
+  }
+
+  .movieRow {
+    color: rgba(245, 245, 245, 0.66);
+    width: 99%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .movieRow_img {
+    width: 60%;
+  }
+
+  .movieRow_data {
+    width: 80%;
+  }
 }
